@@ -1,9 +1,13 @@
 import readlinesync = require("readline-sync");
+import { Lanche } from "./src/model/Lanche";
+import { LancheDoce } from "./src/model/LancheDoce";
+import { LancheSalgado } from "./src/model/LancheSalgado";
 
 export function main() {
 
-    let opcao, tipo, pagamento: number
+    let opcao, tipo, pagamento, quantidade: number
     let nome, nomeLanche: string
+    let teste;
     const tipoLanche = ['lanche doce', 'lanche salgado']
     const formaPagamento = ['pix', 'dinheiro', 'cartao']
     
@@ -38,15 +42,22 @@ export function main() {
                 console.log("\n Trabalhamos com lanches doces e salgados! Qual a opcao: ")
                 tipo = readlinesync.keyInSelect(tipoLanche, "", { cancel: false }) + 1
 
+                console.log("Informe a quantidade: ")
+                quantidade = readlinesync.questionInt("")
+
                 switch (tipo) {
                     case 1:
                         console.log("Fale o nome do lanche doce que deseja: ")
                         nomeLanche = readlinesync.question("")
                         
+
                         break
                     case 2:
                         console.log("Fale o nome do lanche salgado que deseja: ")
                         nomeLanche = readlinesync.question("")
+                        
+                        teste = new LancheSalgado(nome, nomeLanche, pagamento, tipo, quantidade)
+                        console.log(teste)
                         break
                 }
 
