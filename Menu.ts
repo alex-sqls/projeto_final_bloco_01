@@ -2,12 +2,14 @@ import readlinesync = require("readline-sync");
 import { Lanche } from "./src/model/Lanche";
 import { LancheDoce } from "./src/model/LancheDoce";
 import { LancheSalgado } from "./src/model/LancheSalgado";
+import { LancheController } from "./src/controller/LanceController";
 
 export function main() {
 
     let opcao, tipo, pagamento, quantidade: number
     let nome, nomeLanche: string
-    let teste;
+    let lanche: LancheController = new LancheController();
+
     const tipoLanche = ['lanche doce', 'lanche salgado']
     const formaPagamento = ['pix', 'dinheiro', 'cartao']
     
@@ -34,7 +36,7 @@ export function main() {
                 console.log("\nAgente seu pedido conosco: \n\n")
 
                 console.log("Digite seu nome: ");
-                nome = readlinesync.question("")
+                nome = readlinesync.question("").toLowerCase()
 
                 console.log("Forma de pagamento")
                 pagamento = readlinesync.keyInSelect(formaPagamento, "", { cancel: false }) + 1
@@ -49,15 +51,14 @@ export function main() {
                     case 1:
                         console.log("Fale o nome do lanche doce que deseja: ")
                         nomeLanche = readlinesync.question("")
-                        
+                        lanche.adicionarNaLista(new LancheDoce(nome,nomeLanche,pagamento, tipo, quantidade))
 
                         break
                     case 2:
                         console.log("Fale o nome do lanche salgado que deseja: ")
                         nomeLanche = readlinesync.question("")
-                        
-                        teste = new LancheSalgado(nome, nomeLanche, pagamento, tipo, quantidade)
-                        console.log(teste)
+                        lanche.adicionarNaLista(new LancheSalgado(nome,nomeLanche,pagamento, tipo, quantidade)) 
+                       
                         break
                 }
 
@@ -65,12 +66,15 @@ export function main() {
                 break
             case 2:
                 console.log("\n\nListar todos os pedidos: \n\n");
-
+                lanche.listarPedidos()
                 
                 keyPress()
                 break;
             case 3:
-                console.log("\n\nExcluir pedido\n");
+                console.log("\n\nExcluir pedido: \n");
+                console.log("Digite o nome do cliente que deseja excluir: ");
+                nome = readlinesync.question("").toLowerCase()
+                lanche.deletar(nome)
 
                 keyPress()
                 break;
