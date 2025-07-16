@@ -4,7 +4,7 @@ export interface LancheRepository {
 
    listarPedidos() : void;
 
-   deletar(nome: string): void 
+   deletar(nome: string): void;
 
-   adicionarNaLista(lanche: Lanche) : void
+   adicionarNaLista(lanche: Lanche) : void;
 }

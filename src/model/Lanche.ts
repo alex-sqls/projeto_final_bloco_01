@@ -10,7 +10,7 @@ export abstract class Lanche {
         this._nomeDoLanche = nomeDoLanche;
         this._pagamento = pagamento;
         this._quantidade = quantidade;
-        this._tipo = tipo
+        this._tipo = tipo;
     }
 
     //getters e setters
@@ -59,12 +59,12 @@ export abstract class Lanche {
         let tipoPagamento: string = "";
 
 
-        if(this._tipo == 1) tipoLanche = "lanche doce"
-        if(this._tipo == 2) tipoLanche = "lanche salgado"
+        if(this._tipo == 1) tipoLanche = "lanche doce";
+        if(this._tipo == 2) tipoLanche = "lanche salgado";
 
-        if(this._pagamento == 1) tipoPagamento = "pix"
-        if(this._pagamento == 2) tipoPagamento = "dinheiro"
-        if(this._pagamento == 3) tipoPagamento = "cartao credito/debito"
+        if(this._pagamento == 1) tipoPagamento = "pix";
+        if(this._pagamento == 2) tipoPagamento = "dinheiro";
+        if(this._pagamento == 3) tipoPagamento = "cartao credito/debito";
         
         console.log("*********************************");
         console.log("Lista de pedidos: ");
