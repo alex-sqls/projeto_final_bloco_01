@@ -39,10 +39,10 @@ export abstract class Lanche {
     }
 
     //tipo
-    public get tipo_1(): number {
+    public get tipo(): number {
         return this._tipo;
     }
-    public set tipo_1(value: number) {
+    public set tipo(value: number) {
         this._tipo = value;
     }
 

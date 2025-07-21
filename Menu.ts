@@ -1,8 +1,7 @@
 import readlinesync = require("readline-sync");
-import { Lanche } from "./src/model/Lanche";
 import { LancheDoce } from "./src/model/LancheDoce";
 import { LancheSalgado } from "./src/model/LancheSalgado";
-import { LancheController } from "./src/controller/LanceController";
+import { LancheController } from "./src/controller/LancheController";
 
 export function main() {
 
@@ -11,37 +10,38 @@ export function main() {
     let lanche: LancheController = new LancheController();
 
     const tipoLanche = ['lanche doce', 'lanche salgado'];
-    const formaPagamento = ['pix', 'dinheiro', 'cartao'];
-    
+    const formaPagamento = ['pix', 'dinheiro', 'cartao debito/credito'];
+
     while (true) {
 
-        console.log("Bem vindo a lanchonete brigadeirete! Lanches doces e salgados por encomenda");
-        
+        console.log("Bem-vindo a lanchonete brigadeirete! Lanches doces e salgados por encomenda");
+
         console.log("Entre com a opcao 1 para agendar o pedido: ");
         console.log("Entre com a opção 2 para visualizar pedidos: ");
         console.log("Entre com a opção 3 para excluir um pedido:");
-        console.log("Entre com a opção 4 para sair: \n\n");
+        console.log("Entre com a opção 4 para atualizar:");
+        console.log("Entre com a opção 5 para sair: \n\n");
         console.log("Entre com a opção desejada: ");
 
         opcao = readlinesync.questionInt("");
 
-        if (opcao == 4) {
+        if (opcao == 5) {
             console.log("Obrigado por nos visitar! :) ")
-    
+
             process.exit(0);
         }
 
         switch (opcao) {
             case 1:
-                console.log("\nAgente seu pedido conosco: \n\n");
+                console.log("\nAgende seu pedido conosco: \n\n");
 
                 console.log("Digite seu nome: ");
                 nome = readlinesync.question("").toLowerCase();
 
-                console.log("Forma de pagamento");
+                console.log("Forma de pagamento: ");
                 pagamento = readlinesync.keyInSelect(formaPagamento, "", { cancel: false }) + 1;
 
-                console.log("\n Trabalhamos com lanches doces e salgados! Qual a opcao: ");
+                console.log("\n Trabalhamos com lanches doces e salgados! Qual a opcao? ");
                 tipo = readlinesync.keyInSelect(tipoLanche, "", { cancel: false }) + 1;
 
                 console.log("Informe a quantidade: ");
@@ -51,14 +51,14 @@ export function main() {
                     case 1:
                         console.log("Fale o nome do lanche doce que deseja: ");
                         nomeLanche = readlinesync.question("");
-                        lanche.adicionarNaLista(new LancheDoce(nome,nomeLanche,pagamento, tipo, quantidade));
+                        lanche.adicionarNaLista(new LancheDoce(nome, nomeLanche, pagamento, tipo, quantidade));
 
                         break;
                     case 2:
                         console.log("Fale o nome do lanche salgado que deseja: ");
                         nomeLanche = readlinesync.question("");
-                        lanche.adicionarNaLista(new LancheSalgado(nome,nomeLanche,pagamento, tipo, quantidade));
-                       
+                        lanche.adicionarNaLista(new LancheSalgado(nome, nomeLanche, pagamento, tipo, quantidade));
+
                         break;
                 }
 
@@ -67,14 +67,56 @@ export function main() {
             case 2:
                 console.log("\n\nListar todos os pedidos: \n\n");
                 lanche.listarPedidos();
-                
+
                 keyPress()
                 break;
             case 3:
                 console.log("\n\nExcluir pedido: \n");
                 console.log("Digite o nome do cliente que deseja excluir: ");
                 nome = readlinesync.question("").toLowerCase();
-                lanche.deletar(nome);
+
+                if (lanche.ValidaBusca(nome)) {
+                    lanche.deletar(nome);
+                } else {
+                    console.log('Nao foi possivel excluir! ' + nome);
+                }
+
+                keyPress();
+                break;
+            case 4:
+
+                console.log("\n\nDigite o nome do cliente que deseja atualizar: \n");
+                nome = readlinesync.question("").toLowerCase();
+
+                if (lanche.ValidaBusca(nome)) {
+
+                    console.log("Forma de pagamento: ");
+                    pagamento = readlinesync.keyInSelect(formaPagamento, "", { cancel: false }) + 1;
+
+                    console.log("\n Trabalhamos com lanches doces e salgados! Qual a opcao? ");
+                    tipo = readlinesync.keyInSelect(tipoLanche, "", { cancel: false }) + 1;
+
+                    console.log("Informe a quantidade: ");
+                    quantidade = readlinesync.questionInt("");
+
+                    switch (tipo) {
+                        case 1:
+                            console.log("Fale o nome do lanche doce que deseja: ");
+                            nomeLanche = readlinesync.question("");
+                            lanche.atualizarPedido(nome, new LancheDoce(nome, nomeLanche, pagamento, tipo, quantidade));
+
+                            break;
+                        case 2:
+                            console.log("Fale o nome do lanche salgado que deseja: ");
+                            nomeLanche = readlinesync.question("");
+                            lanche.atualizarPedido(nome, new LancheSalgado(nome, nomeLanche, pagamento, tipo, quantidade));
+
+                            break;
+                    }
+
+                } else {
+                    console.log('Cliente Nao encontrado!');
+                }
 
                 keyPress();
                 break;
@@ -87,8 +129,8 @@ export function main() {
 
     }
     function keyPress(): void {
-    console.log("\nPressione enter para continuar...");
-    readlinesync.prompt();
-}
+        console.log("\nPressione enter para continuar...");
+        readlinesync.prompt();
+    }
 }
 main();
